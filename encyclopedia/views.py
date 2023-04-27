@@ -9,9 +9,9 @@ def index(request):
     })
 
 def get_entry(request, query):
-    if query.capitalize() in util.list_entries():
+    if query in util.list_entries():
         return render(request, "encyclopedia/get_entry.html", {
-            "entry": util.get_entry(query.capitalize())
+            "entry": util.get_entry(query)
         })
     
     else:
