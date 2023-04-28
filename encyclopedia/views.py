@@ -38,4 +38,11 @@ def get_entry(request, query):
         return HttpResponse("404: Not found")
 
 def new_page(request):
-    return render(request, "encyclopedia/new_page.html")
+    if request.POST:
+        title = request.POST["title"]
+        if title in util.list_entries():
+            return HttpResponse(f"Page {title} already exists")
+        return render(request, "encyclopedia/new_page.html")
+
+    else:
+        return render(request, "encyclopedia/new_page.html")
