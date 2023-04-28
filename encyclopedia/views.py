@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from . import util
 
 """class NewTaskForm(forms.Form):
@@ -40,8 +41,13 @@ def get_entry(request, query):
 def new_page(request):
     if request.POST:
         title = request.POST["title"]
+        markdown = request.POST["markdown"]
         if title in util.list_entries():
             return HttpResponse(f"Page {title} already exists")
+        else:
+            util.save_entry(title, markdown)
+            return redirect("encyclopedia:get_entry", f"{title}") #<-----------
+
         return render(request, "encyclopedia/new_page.html")
 
     else:
