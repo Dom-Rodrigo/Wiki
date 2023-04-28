@@ -36,3 +36,6 @@ def get_entry(request, query):
     
     else:
         return HttpResponse("404: Not found")
+
+def new_page(request):
+    return render(request, "encyclopedia/new_page.html")
