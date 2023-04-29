@@ -24,6 +24,14 @@ def save_entry(title, content):
         default_storage.delete(filename)
     default_storage.save(filename, ContentFile(content))
 
+def delete_entry(old_title):
+    """
+    It will delete an entry giving a title, to be used to edit titles and delete the last version
+    """
+    filename = f"entries/{old_title}.md"
+    if default_storage.exists(filename):
+        default_storage.delete(filename)
+
 
 def get_entry(title):
     """

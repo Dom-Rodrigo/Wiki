@@ -59,6 +59,7 @@ def edit(request, query):
         title = request.POST["title"]
         markdown = request.POST["markdown"]
         util.save_entry(title, markdown)
+        util.delete_entry(old_title)
 
         return redirect("encyclopedia:get_entry",  f"{title}")
 
