@@ -3,9 +3,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from . import util
 
-"""class NewTaskForm(forms.Form):
-    task = forms.CharField()"""
-
 def index(request):
     if request.GET:
         query = request.GET["q"]
@@ -30,9 +27,11 @@ def index(request):
         })
 
 def get_entry(request, query):
+    print(query)
     if query in util.list_entries():
         return render(request, "encyclopedia/get_entry.html", {
-            "entry": util.get_entry(query)
+            "entry": util.get_entry(query),
+            "query": query,
         })
     
     else:
@@ -46,9 +45,24 @@ def new_page(request):
             return HttpResponse(f"Page {title} already exists")
         else:
             util.save_entry(title, markdown)
-            return redirect("encyclopedia:get_entry", f"{title}") #<-----------
+            return redirect("encyclopedia:get_entry", f"{title}")
 
         return render(request, "encyclopedia/new_page.html")
 
     else:
         return render(request, "encyclopedia/new_page.html")
+
+def edit(request, query):
+    old_title = query
+    old_markdown = util.get_entry(query)
+    if request.POST:
+        title = request.POST["title"]
+        markdown = request.POST["markdown"]
+        util.save_entry(title, markdown)
+
+        return redirect("encyclopedia:get_entry",  f"{title}")
+
+    return render(request, "encyclopedia/edit.html", {
+        'old_title': old_title,
+        'old_markdown': old_markdown
+    })
