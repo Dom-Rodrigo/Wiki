@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Wiki</title>
-    </head>
-    <body>
-        <p>{{ entry|safe }}</p>
-        <a href="edit/">Edit</a>
-    </body>
-</html>
+{% extends "encyclopedia/layout.html" %}
+{% block title %}
+    {{ query }}
+{% endblock %}
+
+{% block body %}
+    <p>{{ entry|safe }}</p>
+    <a href="edit/">Edit</a>
+{% endblock %}
