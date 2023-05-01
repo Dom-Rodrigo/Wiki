@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from . import util
+import markdown2
 
 def index(request):
     if request.GET:
@@ -30,7 +31,7 @@ def get_entry(request, query):
     print(query)
     if query in util.list_entries():
         return render(request, "encyclopedia/get_entry.html", {
-            "entry": util.get_entry(query),
+            "entry": markdown2.markdown(util.get_entry(query)),
             "query": query,
         })
     
@@ -58,8 +59,8 @@ def edit(request, query):
     if request.POST:
         title = request.POST["title"]
         markdown = request.POST["markdown"]
-        util.save_entry(title, markdown)
         util.delete_entry(old_title)
+        util.save_entry(title, markdown)
 
         return redirect("encyclopedia:get_entry",  f"{title}")
 
